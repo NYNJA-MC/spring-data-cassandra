@@ -40,4 +40,8 @@ public class KeyspaceActions {
 	public KeyspaceActions(List<KeyspaceActionSpecification> actions) {
 		this.actions = actions;
 	}
+
+	public List<KeyspaceActionSpecification> getActions() {
+		return this.actions;
+	}
 }
