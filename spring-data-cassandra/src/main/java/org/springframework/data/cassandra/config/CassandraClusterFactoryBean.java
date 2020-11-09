@@ -217,7 +217,8 @@ public class CassandraClusterFactoryBean
 			clusterBuilderConfigurer.configure(clusterBuilder);
 		}
 
-		cluster = clusterBuilder.build();
+//		cluster = clusterBuilder.build();
+		cluster = createCluster(clusterBuilder);
 
 		Optional.ofNullable(hostStateListener).ifPresent(cluster::register);
 		Optional.ofNullable(latencyTracker).ifPresent(cluster::register);
@@ -229,6 +230,13 @@ public class CassandraClusterFactoryBean
 		startup.addAll(keyspaceAlterations);
 
 		executeSpecsAndScripts(startup, startupScripts, cluster);
+	}
+
+	protected Cluster createCluster( Cluster.Builder clusterBuilder){
+
+		Cluster cluster = clusterBuilder.build();
+
+		return cluster;
 	}
 
 	/*
