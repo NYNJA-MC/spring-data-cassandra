@@ -6,10 +6,10 @@ pipeline {
     environment {
         SLACK_CHANNEL = "#nynja-devops-feed"
         NAMESPACE = "nynja-spring-data-cassandra"
-        APP_NAME = "nynja-spring-data"
+        APP_NAME = "spring-data-cassandra-parent"
         IMAGE_NAME = "eu.gcr.io/nynja-ci-201610/${NAMESPACE}/${APP_NAME}"
         IMAGE_BUILD_TAG = "$BRANCH_NAME-$BUILD_NUMBER"
-        HELM_CHART_NAME = "nynja-spring-data"
+        HELM_CHART_NAME = "spring-data-cassandra-parent"
         DEV_BRANCH = "dev"
     }
     agent {
