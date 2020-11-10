@@ -28,6 +28,13 @@ pipeline {
     stage('Build') {
       when { not { changeRequest() } }
       steps {
+        container('mvn') {
+          withCredentials([file(credentialsId: 'mavenSettings.xml', variable: 'FILE')]) {
+			sh 'mvn --settings $FILE clean install -DskipTests=true'
+			sh 'ls -l'
+          }
+        }
+
         container('jdk') {
           withCredentials([usernamePassword(credentialsId: 'artifactory-global-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
             sh 'echo "" >> gradle.properties'
