@@ -36,13 +36,13 @@ pipeline {
 			sh 'mvn --settings $FILE clean install deploy -DskipTests=true'
 			sh 'find . -name "*.jar"'
 		    }
- 	  withCredentials([usernamePassword(credentialsId: 'helm-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-		sh """
-                   echo "machine nynjagroup.jfrog.io" > ~/.netrc;
-                   echo "login $USER" >> ~/.netrc;
-                   echo "password $PASS" >> ~/.netrc;
-                   echo curl -n -T ./target/${name} "https://nynjagroup.jfrog.io/nynjagroup/libs-release-local/${name}" 
-                """
+ 	  // withCredentials([usernamePassword(credentialsId: 'helm-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+	  // 	sh """
+          //          echo "machine nynjagroup.jfrog.io" > ~/.netrc;
+          //          echo "login $USER" >> ~/.netrc;
+          //          echo "password $PASS" >> ~/.netrc;
+          //          echo curl -n -T ./target/${name} "https://nynjagroup.jfrog.io/nynjagroup/libs-release-local/${name}" 
+          //       """
     }
           }
         }
