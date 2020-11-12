@@ -32,10 +32,49 @@ pipeline {
       when { not { changeRequest() } }
       steps {
         container('mvn') {
-          withCredentials([file(credentialsId: 'mavenSettings.xml', variable: 'FILE')]) {
-			// sh 'mvn --settings $FILE clean install deploy -DskipTests=true -DaltDeploymentRepository=spring-data-cassandra.nynjaid::default::https://nynjagroup.jfrog.io/nynjagroup/libs-snapshot-local'
-			sh 'echo $FILE'
-			sh 'cat $FILE'
+		    withCredentials([usernamePassword(credentialsId: 'artifactory-global-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+			sh """SETTINGS='<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <servers>
+    <server>
+      <id>nynjagroup.jfrog.io</id>
+      <username>read-only</username>
+      <password>APkMoqxNDGaw3EK4TFoWaTDzAb</password>
+    </server>
+    <server>
+      <id>nynjagroup.jfrog.io-libs-release</id>
+      <username>${USER}</username>
+      <password>${PASS}</password>
+    </server>
+  </servers>
+
+    <profiles>
+    <profile>
+      <id>nynja</id>
+      <repositories>
+          <repository>
+              <id>nynjagroup.jfrog.io</id>
+              <url>https://nynjagroup.jfrog.io/nynjagroup</url>
+          </repository>
+          <repository>
+              <id>nynjagroup.jfrog.io-libs-release</id>
+              <name>libs-release</name>
+              <url>https://nynjagroup.jfrog.io/nynjagroup/libs-release</url>
+          </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>nynja</activeProfile>
+  </activeProfiles>
+</settings>'
+"""
+			sh "echo $SETTINGS | envsubst > settings.xml"
+			sh "cat settings.xml"
+			sh 'mvn --settings settings.xml clean install deploy -DskipTests=true -DaltDeploymentRepository=spring-data-cassandra.nynjaid::default::https://nynjagroup.jfrog.io/nynjagroup/libs-snapshot-local'
 		    }
 
  	  // withCredentials([usernamePassword(credentialsId: 'helm-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
