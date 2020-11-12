@@ -43,7 +43,7 @@ pipeline {
           //          echo "password $PASS" >> ~/.netrc;
           //          echo curl -n -T ./target/${name} "https://nynjagroup.jfrog.io/nynjagroup/libs-release-local/${name}" 
           //       """
-    }
+          // }
           }
         }
       }
