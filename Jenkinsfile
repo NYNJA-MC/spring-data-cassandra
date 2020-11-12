@@ -32,10 +32,12 @@ pipeline {
       when { not { changeRequest() } }
       steps {
         container('mvn') {
-          withCredentials([file(credentialsId: 'artifactory-maven-user', variable: 'FILE')]) {
-			sh 'mvn --settings $FILE clean install deploy -DskipTests=true -DaltDeploymentRepository=spring-data-cassandra.nynjaid::default::https://nynjagroup.jfrog.io/nynjagroup/libs-snapshot-local'
-			sh 'find . -name "*.jar"'
+          withCredentials([file(credentialsId: 'mavenSettings.xml', variable: 'FILE')]) {
+			// sh 'mvn --settings $FILE clean install deploy -DskipTests=true -DaltDeploymentRepository=spring-data-cassandra.nynjaid::default::https://nynjagroup.jfrog.io/nynjagroup/libs-snapshot-local'
+			sh 'echo $FILE'
+			sh 'cat $FILE'
 		    }
+
  	  // withCredentials([usernamePassword(credentialsId: 'helm-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
 	  // 	sh """
           //          echo "machine nynjagroup.jfrog.io" > ~/.netrc;
