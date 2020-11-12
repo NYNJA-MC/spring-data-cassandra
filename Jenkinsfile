@@ -33,7 +33,7 @@ pipeline {
       steps {
         container('mvn') {
 		    withCredentials([usernamePassword(credentialsId: 'artifactory-global-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-			sh """SETTINGS='<?xml version="1.0" encoding="UTF-8"?>
+			sh """export SETTINGS='<?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
@@ -72,7 +72,7 @@ pipeline {
   </activeProfiles>
 </settings>'
 """
-			sh "echo $SETTINGS | envsubst > settings.xml"
+			sh "echo $SETTINGS > settings.xml"
 			sh "cat settings.xml"
 			sh 'mvn --settings settings.xml clean install deploy -DskipTests=true -DaltDeploymentRepository=spring-data-cassandra.nynjaid::default::https://nynjagroup.jfrog.io/nynjagroup/libs-snapshot-local'
 		    }
