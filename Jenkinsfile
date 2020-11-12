@@ -33,7 +33,7 @@ pipeline {
       steps {
         container('mvn') {
           withCredentials([file(credentialsId: 'mavenSettings.xml', variable: 'FILE')]) {
-			sh 'mvn --settings $FILE clean install deploy -DskipTests=true'
+			sh 'mvn --settings $FILE clean install deploy -DskipTests=true -DaltDeploymentRepository=spring-data-cassandra.nynjaid::default::https://nynjagroup.jfrog.io/nynjagroup/libs-snapshot-local'
 			sh 'find . -name "*.jar"'
 		    }
  	  // withCredentials([usernamePassword(credentialsId: 'helm-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
