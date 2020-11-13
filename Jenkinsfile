@@ -50,21 +50,21 @@ pipeline {
         }
       }
     }
-    stage('Publish') {
-      when { anyOf{
-		branch 'development'
-		branch 'master'
-	    } }
-      steps {
-        container('jdk') {
-          withCredentials([usernamePassword(credentialsId: 'artifactory-global-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-            // sh 'echo "" >> gradle.properties'
-            // sh 'echo "nynjagroup_jfrog_io_user = $USER" >> gradle.properties'
-            // sh 'echo "nynjagroup_jfrog_io_password = $PASS" >> gradle.properties'
-            // sh './gradlew --no-daemon publish'
-          }
-        }
-      }
-    }
+//    stage('Publish') {
+//      when { anyOf{
+//		branch 'development'
+//		branch 'master'
+//	    } }
+//      steps {
+//        container('jdk') {
+//          withCredentials([usernamePassword(credentialsId: 'artifactory-global-publisher', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+//            // sh 'echo "" >> gradle.properties'
+//            // sh 'echo "nynjagroup_jfrog_io_user = $USER" >> gradle.properties'
+//            // sh 'echo "nynjagroup_jfrog_io_password = $PASS" >> gradle.properties'
+//            // sh './gradlew --no-daemon publish'
+//          }
+//        }
+//      }
+//    }
   }
 }
