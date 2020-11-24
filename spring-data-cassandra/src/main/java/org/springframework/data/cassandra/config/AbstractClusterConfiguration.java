@@ -78,7 +78,7 @@ public abstract class AbstractClusterConfiguration {
 	@Bean
 	public CassandraClusterFactoryBean cluster() {
 
-		CassandraClusterFactoryBean bean = new CassandraClusterFactoryBean();
+		CassandraClusterFactoryBean bean = createBean();
 
 		bean.setAddressTranslator(getAddressTranslator());
 		bean.setAuthProvider(getAuthProvider());
@@ -106,6 +106,11 @@ public abstract class AbstractClusterConfiguration {
 		bean.setShutdownScripts(getShutdownScripts());
 
 		return bean;
+	}
+
+	protected CassandraClusterFactoryBean createBean(){
+
+		return new CassandraClusterFactoryBean();
 	}
 
 	/**
